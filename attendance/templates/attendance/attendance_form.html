@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+.student,
+.date,
+.time,
+.status {
+    width: 300px;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border: 2px solid rgba(234, 87, 83, 0.7);
+    border-radius: 1.5rem;
+    font-size: 1.6rem;
+    background: rgba(255, 255, 255, 0.8);
+    transition: border-color 0.3s ease;
+}
+
+.student,
+.date,
+.time,
+.status {
+    border-color: #007BFF;
+    outline: none;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: bold;
+}
+{% endblock %}
+
+{% block container %}
+<div class="container">
+    <h1>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Student</h1>
+    
+    <!-- Update Form -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="id_student">Student</label>
+        {{ form.student }}<br>
+
+        <label for="id_date">Date</label>
+        {{ form.date }}<br>
+
+        <label for="id_time">Time</label>
+        {{ form.time }}<br>
+
+        <label for="id_status">Status</label>
+        {{ form.status }}<br>
+        {% if form.instance.pk %}
+        <button type="submit" class="big-button">Update</button>
+        {% else %}
+        <button type="submit" class="big-button">Save</button>
+        {% endif %}
+        <a href="{% url 'attendance_list' %}" class="big-button cancel">Back</a>
+    </form>
+    <!-- Delete Form -->
+    {% if form.instance.pk %}
+    <form method="post" action="{% url 'attendance-delete' form.instance.pk %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="big-button">Delete</button>
+    </form>
+    {% endif %}
+    
+</div>
+{% endblock %}

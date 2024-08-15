@@ -1,0 +1,15 @@
+<!-- attendance/templates/attendance/upload_result.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recognition Result</title>
+</head>
+<body>
+    <h1>Recognition Result</h1>
+    <ul>
+        {% for name in result %}
+            <li>{{ name }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -1,0 +1,168 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+html {
+    font-size: 62.5%;
+}
+
+body {
+    margin: 0;
+    height: 100vh;
+    display: grid;
+    font-size: 1.6rem;
+    place-items: center;
+    background: linear-gradient(to right bottom, #ffb88e, #ea5753);
+    font-family: Rockwell, "Courier New", Courier, Georgia, Times, "Times New Roman", serif;
+}
+
+.container {
+    width: 40vw;
+    padding: 3rem;
+    margin-bottom: 20px;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    position: relative;
+    border-radius: 3rem;
+    background: linear-gradient(to right bottom, rgba(255, 184, 142, 0.44), rgba(255, 255, 255, 0.5));
+}
+
+.container h1 {
+    top: 0;
+    margin: 0;
+    padding: 6rem 0;
+    padding-top: 7rem;
+    position: sticky;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 3rem;
+    box-shadow: 0 7px 2rem #ea5753;
+    background: rgba(234, 87, 83, 0.7);
+}
+
+.container ol {
+    margin: 0;
+    gap: 1rem;
+    padding: 0;
+    display: flex;
+    list-style: none;
+    place-items: center;
+    flex-direction: column;
+    counter-reset: my-counter;
+}
+
+.container ol li {
+    width: 40rem;
+    text-align: center;
+    font-size: 15px;
+    color: #ffff;
+    border-radius: 3rem;
+    background: rgba(234, 87, 83, 0.7);
+    counter-increment: my-counter;
+    padding: 1.1rem 1.5rem;
+    position: relative;
+}
+
+.container ol li a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    font-size: 15px;
+    color: #ffff;
+    text-decoration: none;
+}
+
+.container ol li a::before {
+    content: counter(my-counter) ". ";
+}
+
+/* Additional styles omitted for brevity... */
+.big-button {
+display: inline-block;
+padding: 1rem 2rem;
+font-size: 1.5rem;
+color: #fff;
+background-color: #007BFF; /* Customize your button color */
+border: none;
+border-radius: 3rem;
+text-align: center;
+text-decoration: none;
+margin-bottom: 20px; /* Bottom margin */
+transition: background-color 0.3s ease;
+}
+
+.big-button:hover {
+background-color: #ffff; /* Darker shade on hover */
+}
+
+/* Loader styles */
+.loader {
+font-weight: bold;
+font-family: sans-serif;
+font-size: 30px;
+animation: l1 1s linear infinite alternate;
+}
+
+.loader:before {
+content: "Loading...";
+}
+
+@keyframes l1 {
+to {
+    opacity: 0;
+}
+}
+
+/* Modal styles */
+#resultModal {
+display: none;
+position: fixed;
+z-index: 1;
+left: 0;
+top: 0;
+width: 100%;
+height: 100%;
+overflow: auto;
+background-color: rgba(0, 0, 0, 0.4);
+padding-top: 60px;
+}
+
+#modalContent {
+background-color: #fefefe;
+margin: 5% auto;
+padding: 20px;
+border: 1px solid #888;
+width: 80%;
+}
+
+#closeModal {
+color: #aaa;
+float: right;
+font-size: 28px;
+font-weight: bold;
+}
+
+#closeModal:hover,
+#closeModal:focus {
+color: black;
+text-decoration: none;
+cursor: pointer;
+}
+
+.container {
+text-align: center;
+margin-top: 20px;
+}
+
+video {
+border: 1px solid #ccc;
+margin-bottom: 0px;
+margin-top: 40px;
+}
+
+/* Loader container */
+#progressContainer {
+display: none;
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+z-index: 10;
+}

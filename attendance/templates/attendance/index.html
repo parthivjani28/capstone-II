@@ -1,0 +1,22 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block container %}  
+<div class="container">
+        <h1>Face Attendance System</h1>
+        <ol>
+            <li><a href="live_feed/">Attendance</a></li>
+            {% if user.is_authenticated %}
+            <li><a href="adminn/">Administrators</a></li>
+            {% else %}
+            <li><a href="login/">Administrators</a></li>
+            {% endif %}
+            
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+        </ol>
+</div>
+{% endblock%}

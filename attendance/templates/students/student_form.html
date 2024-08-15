@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+input[type="text"],
+input[type="email"],
+input[type="date"],
+input[type="file"],
+textarea,
+select {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border: 2px solid rgba(234, 87, 83, 0.7);
+    border-radius: 1.5rem;
+    font-size: 1.6rem;
+    background: rgba(255, 255, 255, 0.8);
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="date"]:focus,
+input[type="file"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: bold;
+}
+{% endblock %}
+
+{% block container %}
+<div class="container">
+    <h1>{% if form.instance.pk %}Edit{% else %}Add{% endif %} Student</h1>
+    
+    <!-- Display Form Errors -->
+    {% if form.errors %}
+        <div class="error">
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ field.label }}: {{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Update Form -->
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        {{ form.name.label_tag }}
+        {{ form.name }}<br>
+
+        {{ form.email.label_tag }}
+        {{ form.email }}<br>
+
+        {{ form.birthday.label_tag }}
+        {{ form.birthday }}<br>
+
+        {{ form.department.label_tag }}
+        {{ form.department }}<br>
+
+        {{ form.semester.label_tag }}
+        {{ form.semester }}<br>
+
+        {{ form.phone_number.label_tag }}
+        {{ form.phone_number }}<br>
+
+        {{ form.gender.label_tag }}
+        {{ form.gender }}<br>
+
+        {{ form.image.label_tag }}
+        {{ form.image }}<br>
+        
+        {% if form.instance.pk %}
+        <button type="submit" class="big-button">Update</button>
+        {% else %}
+        <button type="submit" class="big-button">Save</button>
+        {% endif %}
+        <a href="{% url 'student-list' %}" class="big-button cancel">
+            Back
+        </a>
+    </form>
+
+    <!-- Delete Form -->
+    {% if form.instance.pk %}
+    <form method="post" action="{% url 'student-delete' form.instance.pk %}" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="big-button" style="background-color: #dc3545;">Delete</button>
+    </form>
+    {% endif %}
+    
+</div>
+{% endblock %}

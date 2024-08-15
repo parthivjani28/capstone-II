@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load static %}
+{% block container %}
+<div class="container">
+    <h1>Student List</h1>
+    <a href="{% url 'student-add' %}" class="big-button">Add Student</a>
+    <a href="{% url 'adminn' %}" class="big-button cancel">Back</a>
+    <ol>
+        {% for student in students %}
+        <li><a href="{% url 'student-edit' student.pk %}">{{ student.name }}</a></li>
+        {% endfor %}
+    </ol>
+</div>
+{% endblock %}

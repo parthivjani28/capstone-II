@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load static %}
+{% block container %}
+<div class="container">
+    <h1>Attendance List</h1>
+    <a href="{% url 'attendance-add' %}" class="big-button">Add Attendance</a>
+    <a href="{% url 'adminn' %}" class="big-button cancel">Back</a>
+    <ol>
+        {% for attendance in attendance_records %}
+        <li>
+            <a href="{% url 'attendance-edit' attendance.pk %}">{{ attendance.student.name }} - {{ attendance.time }} - {{ attendance.date }} - {{ attendance.status }}</a>
+            <form action="{% url 'attendance-delete' attendance.pk %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ol>
+</div>
+{% endblock %}

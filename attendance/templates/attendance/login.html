@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block style %}
+input[type="text"],
+input[type="password"],
+textarea,
+select {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    border: 2px solid rgba(234, 87, 83, 0.7);
+    border-radius: 1.5rem;
+    font-size: 1.6rem;
+    background: rgba(255, 255, 255, 0.8);
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+select:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-weight: bold;
+}
+/* styles.css */
+.error {
+  color: red;
+  border: 1px solid red;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #fdd;
+}
+
+.error p {
+  margin: 0;
+}
+
+.error ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.error li {
+  margin: 0;
+}
+
+{% endblock %}
+
+{% block container %}
+<div class="container">
+    <h1>Admin Login</h1>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div class="error">
+          {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+      {% endif %} 
+        {{ form.username.label_tag }}
+        {{ form.username }}<br>
+        
+
+        {{ form.password.label_tag }}
+        {{ form.password }}<br>
+        
+
+       
+
+
+        <button class="big-button"type="submit">Log in</button>
+    </form>
+</div>
+{% endblock %}

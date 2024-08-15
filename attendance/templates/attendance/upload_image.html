@@ -1,0 +1,109 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block container %}  
+<div class="container">
+      
+
+         <form id="capture-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <video id="video" width="100%" height="100%" class="border"></video>
+            <div>
+                <button type="button" id="capture" class="btn btn-outline-primary mt-3 l1">Capture</button>
+                <input type="file" name="image" id="image" accept="image/*" style="display:none;">
+                <button type="submit" class="btn btn-success mt-3">Submit</button>
+            </div>
+        </form>
+
+        <div id="progressContainer">
+            <div class="loader"></div>
+        </div>
+
+        <div id="resultModal">
+            <div id="modalContent">
+                <span id="closeModal">&times;</span>
+                <h2>Attendance List</h2>
+                <div id="results"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javas %}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const video = document.getElementById('video');
+            const captureButton = document.getElementById('capture');
+            const imageInput = document.getElementById('image');
+            const progressContainer = document.getElementById('progressContainer');
+            const loader = document.querySelector('.loader');
+            const container = document.querySelector('.container');
+
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(stream => {
+                    video.srcObject = stream;
+                    video.play();
+                })
+                .catch(error => {
+                    console.error('Error accessing camera:', error);
+                });
+
+            captureButton.addEventListener('click', () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0);
+                canvas.toBlob(blob => {
+                    const file = new File([blob], 'captured-image.jpg', { type: 'image/jpeg' });
+                    const dataTransfer = new DataTransfer();
+                    dataTransfer.items.add(file);
+                    imageInput.files = dataTransfer.files;
+                }, 'image/jpeg');
+            });
+
+            document.getElementById('capture-form').onsubmit = function(event) {
+                event.preventDefault();
+                const formData = new FormData(this);
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', '/detect_faces/', true);
+                
+                xhr.onloadstart = function() {
+                    progressContainer.style.display = 'block';
+                    loader.style.display = 'flex'; // Show loader
+                };
+
+                xhr.onload = function() {
+                    const simulatedProcessingTime = 2000; // Simulate 2 seconds processing
+                    setTimeout(() => {
+                        if (xhr.status === 200) {
+                            const response = JSON.parse(xhr.responseText);
+                            showResults(response.names);
+                        }
+                        progressContainer.style.display = 'none'; // Hide loader
+                        loader.style.display = 'none'; // Hide loader
+                    }, simulatedProcessingTime);
+                };
+
+                xhr.send(formData);
+            };
+
+            function showResults(names) {
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.innerHTML = names.length ? names.join('<br>') : 'No students recognized.';
+                document.getElementById('resultModal').style.display = 'block';
+            }
+
+            document.getElementById('closeModal').onclick = function() {
+                document.getElementById('resultModal').style.display = 'none';
+            };
+
+            window.onclick = function(event) {
+                const modal = document.getElementById('resultModal');
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            };
+        });
+    </script>
+    {% endblock %}
+    <!-- Bootstrap JS and dependencies -->
+  
